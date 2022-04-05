@@ -8,6 +8,7 @@ import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
+
   return (
     <>
       <Router>
