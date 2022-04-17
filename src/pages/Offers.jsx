@@ -27,7 +27,7 @@ function Offers() {
         //create a query
         const q = query(
           listingsRef,
-          where('typeoffer', '==', true),
+          where('offer', '==', true),
           orderBy('timestamp', 'desc'),
           limit(10)
         );
