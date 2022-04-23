@@ -168,9 +168,9 @@ function CreateListing() {
     };
 
     //clean up data
+    formDataCopy.location = address;
     delete formDataCopy.images; //we want url
     delete formDataCopy.address; //we have geolocation
-    location && (formDataCopy.location = location);
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
 
     //save to database
