@@ -6,6 +6,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
@@ -70,6 +71,7 @@ function CreateListing() {
     e.preventDefault();
 
     setLoading(true);
+
     if (discountedPrice >= regularPrice) {
       setLoading(false);
       toast.error('Discounted price should be less than regular price');
@@ -99,6 +101,7 @@ function CreateListing() {
         data.status === 'ZERO_RESULTS'
           ? undefined
           : data.results[0]?.formatted.address;
+
       if (location === undefined || location.includes('undefined')) {
         setLoading(false);
         toast.error('Enter correct address');
@@ -107,7 +110,6 @@ function CreateListing() {
     } else {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
-      location = address;
     }
 
     // Store image in firebase
@@ -134,6 +136,8 @@ function CreateListing() {
               case 'running':
                 console.log('Upload is running');
                 break;
+              default:
+                break;
             }
           },
           (error) => {
@@ -155,6 +159,25 @@ function CreateListing() {
       toast.error('Error uploading image');
       return;
     });
+
+    const formDataCopy = {
+      ...formData,
+      imgUrls,
+      geolocation,
+      timestamp: serverTimestamp(),
+    };
+
+    //clean up data
+    delete formDataCopy.images; //we want url
+    delete formDataCopy.address; //we have geolocation
+    location && (formDataCopy.location = location);
+    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+
+    //save to database
+    const docRef = await addDoc(collection(db, 'listings', formDataCopy));
+    setLoading(false);
+    toast.success('Listing saved');
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`); //nav to sell or rent
 
     setLoading(false);
   };
