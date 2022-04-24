@@ -19,7 +19,7 @@ function CreateListing() {
   const [formData, setFormData] = useState({
     type: 'rent',
     name: '',
-    bedroom: 1,
+    bedrooms: 1,
     bathrooms: 1,
     parking: false,
     furnished: false,
@@ -100,7 +100,7 @@ function CreateListing() {
       location =
         data.status === 'ZERO_RESULTS'
           ? undefined
-          : data.results[0]?.formatted.address;
+          : data.results[0]?.formated.address;
 
       if (location === undefined || location.includes('undefined')) {
         setLoading(false);
@@ -200,7 +200,7 @@ function CreateListing() {
       }));
     }
     //text/booleans/number
-    if (!e.target.fields) {
+    if (!e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
         [e.target.id]: boolean ?? e.target.value,
