@@ -94,8 +94,8 @@ function CreateListing() {
 
       const data = await response.json();
 
-      geolocation.lat = data.results[0].geometry.location.lat ?? 0;
-      geolocation.lng = data.results[0].geometry.location.lng ?? 0;
+      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
+      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
 
       location =
         data.status === 'ZERO_RESULTS'
@@ -104,7 +104,7 @@ function CreateListing() {
 
       if (location === undefined || location.includes('undefined')) {
         setLoading(false);
-        toast.error('Enter correct address');
+        toast.error('Enter correct adddress');
         return;
       }
     } else {
