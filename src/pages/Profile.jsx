@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { getAuth, updateProfile } from 'firebase/auth';
 import {
   updateDoc,
   doc,
@@ -11,8 +11,8 @@ import {
   orderBy,
   deleteDoc,
 } from 'firebase/firestore';
-import { getAuth, updateProfile } from 'firebase/auth';
 import { db } from '../firebase.config';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ListingItem from '../components/ListingItem';
 import arrowRight from '../assets/svg/keyboardArrowRightIcon.svg';
@@ -56,6 +56,8 @@ function Profile() {
       setListings(listings);
       setLoading(false);
     };
+
+    fetchUserListings();
   }, [auth.currentUser.uid]);
 
   const onLogout = () => {
@@ -66,18 +68,19 @@ function Profile() {
   const onSubmit = async () => {
     try {
       if (auth.currentUser.displayName !== name) {
-        //update display name in Firebase
+        // Update display name in fb
         await updateProfile(auth.currentUser, {
           displayName: name,
         });
 
-        //update display name in Firestore
+        // Update in firestore
         const userRef = doc(db, 'users', auth.currentUser.uid);
         await updateDoc(userRef, {
-          name: name,
+          name,
         });
       }
     } catch (error) {
+      console.log(error);
       toast.error('Could not update profile details');
     }
   };
@@ -91,12 +94,12 @@ function Profile() {
 
   const onDelete = async (listingId) => {
     if (window.confirm('Are you sure you want to delete?')) {
-      await deleteDoc(doc(db, 'listings, listingId'));
+      await deleteDoc(doc(db, 'listings', listingId));
       const updatedListings = listings.filter(
         (listing) => listing.id !== listingId
       );
       setListings(updatedListings);
-      toast.success('Sucessfully deleted');
+      toast.success('Successfully deleted listing');
     }
   };
 
@@ -104,14 +107,15 @@ function Profile() {
 
   return (
     <div className='profile'>
-      <header className='header profileHeader'>
+      <header className='profileHeader'>
         <p className='pageHeader'>My Profile</p>
         <button type='button' className='logOut' onClick={onLogout}>
           Logout
         </button>
       </header>
+
       <main>
-        <div className='prifileDetailsHeader'>
+        <div className='profileDetailsHeader'>
           <p className='profileDetailsText'>Personal Details</p>
           <p
             className='changePersonalDetails'
@@ -122,6 +126,7 @@ function Profile() {
             {changeDetails ? 'done' : 'change'}
           </p>
         </div>
+
         <div className='profileCard'>
           <form>
             <input
@@ -142,6 +147,7 @@ function Profile() {
             />
           </form>
         </div>
+
         <Link to='/create-listing' className='createListing'>
           <img src={homeIcon} alt='home' />
           <p>Sell or rent your home</p>
