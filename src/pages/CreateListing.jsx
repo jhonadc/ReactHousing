@@ -9,11 +9,12 @@ import {
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../components/Spinner';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+import Spinner from '../components/Spinner';
 
 function CreateListing() {
+  // eslint-disable-next-line
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ function CreateListing() {
     bathrooms: 1,
     parking: false,
     furnished: false,
-    adress: '',
+    address: '',
     offer: false,
     regularPrice: 0,
     discountedPrice: 0,
@@ -58,13 +59,15 @@ function CreateListing() {
         if (user) {
           setFormData({ ...formData, userRef: user.uid });
         } else {
-          navigate('sign-in');
+          navigate('/sign-in');
         }
       });
     }
+
     return () => {
       isMounted.current = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted]);
 
   const onSubmit = async (e) => {
@@ -74,7 +77,7 @@ function CreateListing() {
 
     if (discountedPrice >= regularPrice) {
       setLoading(false);
-      toast.error('Discounted price should be less than regular price');
+      toast.error('Discounted price needs to be less than regular price');
       return;
     }
 
@@ -89,7 +92,7 @@ function CreateListing() {
 
     if (geolocationEnabled) {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}$key=${process.env.REACT_APP_GEOCODE_API_KEY}`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyB9RzZ_d_v1_xXI0VupuW8wZdi0-WwM-zA`
       );
 
       const data = await response.json();
@@ -100,11 +103,11 @@ function CreateListing() {
       location =
         data.status === 'ZERO_RESULTS'
           ? undefined
-          : data.results[0]?.formatted.address;
+          : data.results[0]?.formatted_address;
 
       if (location === undefined || location.includes('undefined')) {
         setLoading(false);
-        toast.error('Enter correct adddress');
+        toast.error('Please enter a correct address');
         return;
       }
     } else {
@@ -116,7 +119,6 @@ function CreateListing() {
     const storeImage = async (image) => {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
-
         const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
 
         const storageRef = ref(storage, 'images/' + fileName);
@@ -144,6 +146,8 @@ function CreateListing() {
             reject(error);
           },
           () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
               resolve(downloadURL);
             });
@@ -156,7 +160,7 @@ function CreateListing() {
       [...images].map((image) => storeImage(image))
     ).catch(() => {
       setLoading(false);
-      toast.error('Error uploading image');
+      toast.error('Images not uploaded');
       return;
     });
 
@@ -167,19 +171,15 @@ function CreateListing() {
       timestamp: serverTimestamp(),
     };
 
-    //clean up data
     formDataCopy.location = address;
-    delete formDataCopy.images; //we want url
-    delete formDataCopy.address; //we have geolocation
+    delete formDataCopy.images;
+    delete formDataCopy.address;
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
 
-    //save to database
-    const docRef = await addDoc(collection(db, 'listings', formDataCopy));
+    const docRef = await addDoc(collection(db, 'listings'), formDataCopy);
     setLoading(false);
     toast.success('Listing saved');
-    navigate(`/category/${formDataCopy.type}/${docRef.id}`); //nav to sell or rent
-
-    setLoading(false);
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   };
 
   const onMutate = (e) => {
@@ -188,18 +188,19 @@ function CreateListing() {
     if (e.target.value === 'true') {
       boolean = true;
     }
-
     if (e.target.value === 'false') {
       boolean = false;
     }
-    //files
+
+    // Files
     if (e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
         images: e.target.files,
       }));
     }
-    //text/booleans/number
+
+    // Text/Booleans/Numbers
     if (!e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
