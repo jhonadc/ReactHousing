@@ -7,7 +7,6 @@ function Explore() {
   return (
     <div className='explore'>
       <header>
-        <p className='pageHeader'>Welcome to H-Marketplace!</p>
         <p className='pageHeader'>Explore</p>
       </header>
 
