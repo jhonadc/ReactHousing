@@ -59,7 +59,7 @@ button {
 
 .primaryButton {
   cursor: pointer;
-  background: #00cc66;
+  background: blue; /*#00cc66*/
   border-radius: 1rem;
   padding: 0.85rem 2rem;
   color: #ffffff;
@@ -121,7 +121,7 @@ button {
   width: 64px;
   height: 64px;
   border: 8px solid;
-  border-color: #00cc66 transparent #00cc66 transparent;
+  border-color: blue transparent blue transparent;
   border-radius: 50%;
   animation: spin 1.2s linear infinite;
 }
@@ -145,7 +145,7 @@ button {
   bottom: 0;
   right: 0;
   height: 85px;
-  background-color: #ffffff;
+  background-color: white;
   z-index: 1000;
   display: flex;
   justify-content: center;
@@ -213,7 +213,7 @@ button {
 
 .forgotPasswordLink {
   cursor: pointer;
-  color: #00cc66;
+  color: blue;
   font-weight: 600;
   text-align: right;
 }
@@ -253,7 +253,7 @@ button {
   align-items: center;
   width: 3rem;
   height: 3rem;
-  background-color: #00cc66;
+  background-color: blue;
   border-radius: 50%;
 }
 @media (min-width: 1024px) {
@@ -290,7 +290,7 @@ button {
 
 .registerLink {
   margin-top: 4rem;
-  color: #00cc66;
+  color: blue;
   font-weight: 600;
   text-align: center;
   margin-bottom: 3rem;
@@ -454,7 +454,8 @@ button {
   margin-top: 0.5rem;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #00cc66;
+  color: blue;
+  text-shadow: black;
   margin-bottom: 0;
   display: flex;
   align-items: center;
@@ -477,7 +478,7 @@ button {
   margin: 0 auto;
   text-align: center;
   padding: 0.25rem 0.5rem;
-  background-color: #000000;
+  background-color: blue;
   color: #ffffff;
   font-weight: 600;
   border-radius: 1rem;
@@ -517,7 +518,7 @@ button {
 
 .discountPrice {
   padding: 0.25rem 0.5rem;
-  background-color: #000000;
+  background-color: red;
   color: #ffffff;
   border-radius: 1rem;
   font-size: 0.8rem;
@@ -527,7 +528,7 @@ button {
 
 .listingType {
   padding: 0.25rem 0.5rem;
-  background-color: #00cc66;
+  background-color: gold;
   color: #ffffff;
   border-radius: 2rem;
   display: inline;
@@ -628,7 +629,7 @@ button {
   font-size: 1rem;
   font-weight: 600;
   color: #ffffff;
-  background-color: #00cc66;
+  background-color: blue;
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
 }
@@ -646,7 +647,7 @@ button {
 .changePersonalDetails {
   cursor: pointer;
   font-weight: 600;
-  color: #00cc66;
+  color: blue;
 }
 
 .profileCard {
@@ -741,7 +742,7 @@ button {
   align-items: center;
 }
 .formButtonActive {
-  background-color: #00cc66;
+  background-color: blue;
   color: #ffffff;
 }
 
@@ -796,7 +797,7 @@ button {
   width: 100%;
 }
 .formInputFile::-webkit-file-upload-button {
-  background-color: #00cc66;
+  background-color: blue;
   border: none;
   color: #ffffff;
   font-weight: 600;

@@ -50,6 +50,7 @@ function SignIn() {
     <>
       <div className='pageContainer'>
         <header>
+          <p className='pageHeader'>House Marketplace</p>
           <p className='pageHeader'>Welcome Back!</p>
         </header>
 
