@@ -30,6 +30,11 @@ npm start</p>
 Open http://localhost:3000 to view it in your browser.</p>
 <p>The page will reload when you make changes.
 You may also see any lint errors in the console.</p><h2>Usage</h2>
+Geolocation
+
+The listings use Google geocoding to get the coords from the address field. You need to either rename .env.example to .env and add your Google Geocode API key OR in the CreateListing.jsx file you can set geolocationEnabled to "false" and it will add a lat/lng field to the form.
+Run
+
 <hr><p>Browser properties using the Explore page.</p>
 <p>Get in contact with the landlord be E-mail on the listing page.</p>
 <p>Create a profile to add your own property to sell/rent.</p>
@@ -40,11 +45,3 @@ You may also see any lint errors in the console.</p><h2>Usage</h2>
 <hr><ul>
 <li>Limit image upload size/resolution</li>
 </ul>
-
-
-Geolocation
-
-The listings use Google geocoding to get the coords from the address field. You need to either rename .env.example to .env and add your Google Geocode API key OR in the CreateListing.jsx file you can set geolocationEnabled to "false" and it will add a lat/lng field to the form.
-Run
-
-npm start
