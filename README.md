@@ -1,4 +1,4 @@
-<h1>House Marketplace</h1>
+<h1>React Housing</h1>
 <hr><p>A website to rent or buy properties build using Reactjs</p><h2>General Information</h2>
 <hr><ul>
 <li>Website</li>
